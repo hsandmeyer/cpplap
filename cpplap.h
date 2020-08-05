@@ -46,9 +46,7 @@ public:
 
     friend std::ostream &operator<<(std::ostream &stream, const Vect<T> &a)
     {
-        stream << "[" << a._x0 << "]\n"
-               << "[" << a._x1 << "]\n"
-               << "[" << a._x2 << "]\n";
+        stream << "[" << a._x0 << "," << a._x1 << "," << a._x2 << "]";
         return stream;
     }
 
@@ -77,14 +75,46 @@ public:
     friend Vect<T> operator*(const T a, const Vect<T> &b) { return Vect<T>(a * b._x0, a * b._x1, a * b._x2); }
 
     /**
-    Vector times scalar
+        Vector times scalar
     */
     const Vect operator*(const T a) { return Vect(_x0 * a, _x1 * a, _x2 * a); }
 
     /**
-    Vector divided by scalar
+        Vector divided by scalar
     */
     const Vect operator/(const T a) { return Vect(_x0 / a, _x1 / a, _x2 / a); }
+
+    Vect &operator*=(const T a)
+    {
+        _x0 *= a;
+        _x1 *= a;
+        _x2 *= a;
+        return *this;
+    }
+
+    Vect &operator/=(const T a)
+    {
+        _x0 /= a;
+        _x1 /= a;
+        _x2 /= a;
+        return *this;
+    }
+
+    Vect &operator+=(const Vect<T> a)
+    {
+        _x0 += a._x0;
+        _x1 += a._x1;
+        _x2 += a._x2;
+        return *this;
+    }
+
+    Vect &operator-=(const Vect<T> a)
+    {
+        _x0 -= a._x0;
+        _x1 -= a._x1;
+        _x2 -= a._x2;
+        return *this;
+    }
 
     /**
         Add two vectors
@@ -109,6 +139,11 @@ public:
     {
         return Vect<T>(a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]);
     }
+
+    /**
+    Cross product with another vector
+    */
+    Vect<T> cross(const Vect<T> &a) { return cross_prod(*this, a); }
 
     /**
     Factory pattern to create a vector from spherical coordinates.
@@ -239,7 +274,7 @@ public:
 template <class T = float> class Line {
     /**
     Simple class to describe lines in 3D
-     Notation _r + t*_v
+    Notation _r + t*_v
     */
 
     // support vector
