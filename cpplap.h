@@ -410,11 +410,17 @@ public:
 
     ParametricPlane(const Vect<T> r, const Vect<T> u, const Vect<T> v) : _r(r), _u(u), _v(v) {}
 
-    Vect<T> &getR() const { return _r; }
+    Vect<T> &getR() { return _r; }
 
-    Vect<T> &getU() const { return _u; }
+    Vect<T> &getU() { return _u; }
 
-    Vect<T> &getV() const { return _u; }
+    Vect<T> &getV() { return _u; }
+
+    const Vect<T> &getR() const { return _r; }
+
+    const Vect<T> &getU() const { return _u; }
+
+    const Vect<T> &getV() const { return _u; }
 
     /**
     Convert to plane in Hesse normal form
