@@ -1,3 +1,19 @@
+/*
+ * This file is part of the cpplap distribution (https://github.com/hsandmeyer/cpplap).
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #pragma once
 #include <cmath>
 #include <iostream>
@@ -317,7 +333,7 @@ public:
      * If the distance vector points into the opposite direction of the direction vector, we
      * return a negative value.
      */
-    T dist(const Vect<T> &vect) const
+    T distFromRTo(const Vect<T> &vect) const
     {
         Vect<T> dist_vec = (vect - _r);
         T       dist     = dist_vec.norm();
@@ -325,7 +341,23 @@ public:
         // Use scalar product to get the sign of dist
         return copysign(dist, dist_vec * _v);
     }
-};
+
+    /**
+    Find the nearest point on the line to a given point
+    */
+    Vect<T> nearestTo(const Vect<T> &point) const
+    {
+        Vect<T> diff = point - _r;
+        diff         = diff.projectionTo(_v);
+        return _r + diff;
+    }
+
+    /*Compute the distance vector between the line and a given point */
+    Vect<T> distanceTo(const Vect<T> &point) const { return point - nearestTo(point); }
+
+    /*Compute the scalar distance between the line and a given point */
+    T scalarDistanceTo(const Vect<T> &point) const { return distanceTo(point).norm(); }
+}; // namespace cpplap
 
 template <class T> class HessePlane {
     /**
@@ -555,5 +587,4 @@ public:
         return helper_plane.scalarDistanceTo(point);
     }
 };
-
 }; // namespace cpplap

@@ -31,8 +31,11 @@ int main()
     out &= test_exact(line.isInLine(Vect<float>(0, 0, 2)), true, "Second is in line");
     out &= test_exact(line.isInLine(Vect<float>(0, 1, 2)), false, "Third is in line");
 
-    out &= test_rel(line.dist(Vect<float>(0, 0, 2)), sqrtf(5.f), "First line distance");
-    out &= test_rel(line.dist(Vect<float>(0, 2, -2)), -sqrtf(5.f), "Second line distance");
+    out &= test_rel(line.distFromRTo(Vect<float>(0, 0, 2)), sqrtf(5.f), "First origin distance");
+    out &= test_rel(line.distFromRTo(Vect<float>(0, 2, -2)), -sqrtf(5.f), "Second origin distance");
+    out &= test_rel(line.nearestTo(Vect<float>(4, 0, 2)), {0, 0, 2}, "Nearest to");
+    out &= test_rel(line.distanceTo(Vect<float>(4, 0, 2)), {4, 0, 0}, "First line point distance");
+    out &= test_rel(line.scalarDistanceTo(Vect<float>(-4, -2, 6)), 4.f, "Second line point distance");
 
     HessePlane<float> hess_plane(Vect<float>(6, 2, 1), Vect<float>(1, 3, -2));
 
